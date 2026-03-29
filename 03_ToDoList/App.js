@@ -17,7 +17,6 @@ import TodoList from './component/TodoList';
 
 import todoStorages from './storages/todoStorages';
 
-
 function App() {
   const today = new Date();
 
