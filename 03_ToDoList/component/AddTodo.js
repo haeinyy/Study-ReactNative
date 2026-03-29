@@ -10,19 +10,18 @@ import {
   Keyboard,
 } from 'react-native';
 
-function AddTodo() {
+function AddTodo({onInsert}) {
   const [text, setText] = useState('');
 
   const onPress = () => {
+    onInsert(text);
     setText('');
     Keyboard.dismiss();
   };
 
   const button = (
     <View style={styles.buttonStyle}>
-      <Image
-        source={require('../assets/icons/add_white/add_white.png')}
-      />
+      <Image source={require('../assets/icons/add_white/add_white.png')} />
     </View>
   );
 
@@ -37,13 +36,19 @@ function AddTodo() {
         retunKeyType="done"
       />
       {Platform.select({
-        ios: <TouchableOpacity activeOpacity={0.5} onPress={onPress}>{button}</TouchableOpacity>,
-        android: (
-        <View style={styles.circleWrapper}>
-          <TouchableNativeFeedback onPress={onPress}>{button}</TouchableNativeFeedback>
-        </View>
+        ios: (
+          <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
+            {button}
+          </TouchableOpacity>
         ),
-        })}
+        android: (
+          <View style={styles.circleWrapper}>
+            <TouchableNativeFeedback onPress={onPress}>
+              {button}
+            </TouchableNativeFeedback>
+          </View>
+        ),
+      })}
     </View>
   );
 }
@@ -56,8 +61,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#bdbdbd',
     justifyContent: 'center',
+    flexDirection: 'row', // 수평 정렬
+    alignItems: 'center', // 수직 가운데 정렬
   },
   input: {
+    flex: 1,
     paddingHorizontal: 8,
     fontSize: 16,
   },
